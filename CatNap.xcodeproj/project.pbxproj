@@ -277,6 +277,7 @@
 		3A8E28C51B79510C00172EC6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = Mimo;
 				TargetAttributes = {
