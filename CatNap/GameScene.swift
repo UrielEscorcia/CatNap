@@ -32,8 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     class func level(levelNum: Int) -> GameScene? {
         let scene = GameScene(fileNamed: "Level\(levelNum)")
-        scene.currentLevel = levelNum
-        scene.scaleMode = .AspectFill
+        scene!.currentLevel = levelNum
+        scene!.scaleMode = .AspectFill
         return scene
     }
     
@@ -103,8 +103,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        let touch: UITouch = touches.first as! UITouch
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        let touch: UITouch = touches.first!
         sceneTouched(touch.locationInNode(self))
     }
     
@@ -120,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if collision == PhysicsCategory.Label | PhysicsCategory.Edge {
             let labelNode = contact.bodyA.categoryBitMask == PhysicsCategory.Label ? contact.bodyA.node as! SKLabelNode : contact.bodyB.node as! SKLabelNode
             
-            if var userData = labelNode.userData {
+            if let userData = labelNode.userData {
                 userData["bounceCount"] = (userData["bounceCount"] as! Int) + 1
                 if userData["bounceCount"] as! Int == 4{
                     labelNode.removeFromParent()
@@ -212,7 +212,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        let ceilingFix = SKPhysicsJointFixed.jointWithBodyA(hookBaseNode.physicsBody, bodyB: physicsBody, anchor: CGPointZero)
+        let ceilingFix = SKPhysicsJointFixed.jointWithBodyA(hookBaseNode.physicsBody!, bodyB: physicsBody!, anchor: CGPointZero)
         physicsWorld.addJoint(ceilingFix)
         
         ropeNode = SKSpriteNode(imageNamed: "rope")
@@ -231,7 +231,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(hookNode)
         
-        let ropeJoint = SKPhysicsJointSpring.jointWithBodyA(hookBaseNode.physicsBody, bodyB: hookNode.physicsBody, anchorA: hookBaseNode.position, anchorB: CGPoint(x: hookNode.position.x, y: hookNode.position.y + hookNode.size.height/2))
+        let ropeJoint = SKPhysicsJointSpring.jointWithBodyA(hookBaseNode.physicsBody!, bodyB: hookNode.physicsBody!, anchorA: hookBaseNode.position, anchorB: CGPoint(x: hookNode.position.x, y: hookNode.position.y + hookNode.size.height/2))
         physicsWorld.addJoint(ropeJoint)
         
         let range = SKRange(lowerLimit: 0.0, upperLimit: 0.0)
